@@ -1,0 +1,84 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>WebSocket</title>
+    <link rel="stylesheet" href="~/Content/ws.css" type="text/css">
+</head>
+<body>
+    <div id="veri" class="col-sm-12">
+        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+            <thead>
+                <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 163px;">Gönderilen</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 254px;">Alınan</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 118px;">İşlem</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 54px;">Fiyat</th></tr>
+            </thead>
+            <tfoot>
+                <tr><th rowspan="1" colspan="1">Gönderilen</th><th rowspan="1" colspan="1">Alınan</th><th rowspan="1" colspan="1">İşlem</th><th rowspan="1" colspan="1">Fiyat</th></tr>
+            </tfoot>
+            <tbody>
+                <tr role="row" class="odd">
+                    <!-- ws -->
+                    <td id="veri1"></td>
+                    <td id="veri2"></td>
+                    <td id="veri3"></td>
+                    <td id="veri4"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-12">
+        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+            <thead>
+                <tr role="row">
+                    <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 163px;">İsim</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 54px;">Kur</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr><th rowspan="1" colspan="1">İsim</th><th rowspan="1" colspan="1">Kur</th></tr>
+            </tfoot>
+            <tbody>
+                <tr role="row" class="odd">
+                    <!-- api -->
+                    <td>USD</td>
+                    <td>@ViewBag.usd</td>
+                </tr>
+                <tr role="row" class="odd">
+                    <td>AUD</td>
+                    <td>@ViewBag.aud</td>
+                </tr>
+                <tr role="row" class="odd">
+                    <td>EUR</td>
+                    <td>@ViewBag.eur</td>
+                </tr>
+                <tr role="row" class="odd">
+                    <td>CHF</td>
+                    <td>@ViewBag.chf</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- ws -->
+        <script> 
+            const tradeWs = new WebSocket('wss://ws.coincap.io/trades/binance')
+
+            tradeWs.onmessage = function (msg) {
+                var jsonObject = JSON.parse(msg.data);
+                document.getElementById('veri1').innerHTML = jsonObject.base;
+                document.getElementById('veri2').innerHTML = jsonObject.quote;
+                document.getElementById('veri3').innerHTML = jsonObject.direction;
+                document.getElementById('veri4').innerHTML = jsonObject.priceUsd;
+
+
+
+            }
+        </script>
+
+
+
+    </body>
+    </html>
